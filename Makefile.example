@@ -1,0 +1,17 @@
+DB_URL=postgresql://postgres:postgres@localhost:5432/my_app?sslmode=disable
+MIGRATIONS_PATH=database/migrations
+
+migrate-up:
+	migrate -path $(MIGRATIONS_PATH) -database "$(DB_URL)" up
+
+migrate-down:
+	migrate -path $(MIGRATIONS_PATH) -database "$(DB_URL)" down 1
+
+migrate-force:
+	migrate -path $(MIGRATIONS_PATH) -database "$(DB_URL)" force $(version)
+
+migration:
+	migrate create -ext sql -dir $(MIGRATIONS_PATH) -seq $(name)
+
+run:
+	go run ./cmd/server
